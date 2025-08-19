@@ -17,11 +17,7 @@
     
     <div class="form-group">
         <label class="form-label" for="content">内容 *</label>
-        <div id="editor—wrapper">
-            <div id="toolbar-container"><!-- 工具栏 --></div>
-            <div id="editor-container"><!-- 编辑器 --></div>
-        </div>
-        <textarea id="content" name="content" style="display: none;">{{post.content}}</textarea>
+        <textarea id="content" name="content" class="form-textarea" style="min-height: 400px;">{{post.content}}</textarea>
     </div>
     
     <div class="form-group">
@@ -62,67 +58,10 @@
     </div>
 </form>
 
+<!-- 使用简单文本编辑器，支持 Markdown -->
 <style>
-    #editor—wrapper {
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        overflow: hidden;
-        margin-bottom: 1rem;
-    }
-    #toolbar-container {
-        border-bottom: 1px solid #ccc;
-    }
-    #editor-container {
-        min-height: 400px;
-    }
-    .w-e-text-container [data-slate-editor] p {
-        margin: 0;
-    }
+.form-textarea {
+    font-family: 'Courier New', monospace;
+    min-height: 400px;
+}
 </style>
-
-<!-- 引入 wangEditor JS -->
-<script src="https://unpkg.com/@wangeditor-next/editor@latest/dist/index.js"></script>
-<script>
-    // 初始化 wangEditor
-    document.addEventListener('DOMContentLoaded', function() {
-        // 获取内容区域
-        const contentTextarea = document.getElementById('content');
-        const initialContent = contentTextarea.value || '';
-        
-        // 创建编辑器
-        const editorConfig = {
-            placeholder: '请输入内容...',
-            onChange(editor) {
-                const html = editor.getHtml();
-                contentTextarea.value = html;
-            }
-        };
-        
-        // 创建工具栏
-        const toolbarConfig = {};
-        
-        // 初始化编辑器
-        window.editor = wangEditor.createEditor({
-            selector: '#editor-container',
-            config: editorConfig,
-            html: initialContent,
-            mode: 'default' // 或 'simple'
-        });
-        
-        // 创建工具栏
-        window.toolbar = wangEditor.createToolbar({
-            editor: window.editor,
-            selector: '#toolbar-container',
-            config: toolbarConfig,
-            mode: 'default' // 或 'simple'
-        });
-        
-        // 表单提交前确保内容已同步
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function() {
-            if (window.editor) {
-                contentTextarea.value = window.editor.getHtml();
-            }
-        });
-    });
-</script>
