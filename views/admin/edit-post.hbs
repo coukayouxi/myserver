@@ -17,7 +17,8 @@
     
     <div class="form-group">
         <label class="form-label" for="content">内容 *</label>
-        <textarea id="content" name="content" class="form-textarea" style="min-height: 400px;">{{post.content}}</textarea>
+        <div id="editor"></div>
+        <textarea id="content" name="content" style="display: none;">{{post.content}}</textarea>
     </div>
     
     <div class="form-group">
@@ -58,10 +59,51 @@
     </div>
 </form>
 
-<!-- 使用简单文本编辑器，支持 Markdown -->
+<!-- 引入 bytemd CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bytemd/dist/index.css">
+
 <style>
-.form-textarea {
-    font-family: 'Courier New', monospace;
-    min-height: 400px;
-}
+    #editor {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-height: 400px;
+    }
+    .bytemd {
+        height: 400px;
+    }
 </style>
+
+<!-- 引入 bytemd JS 和插件 -->
+<script src="https://cdn.jsdelivr.net/npm/bytemd/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@bytemd/plugin-gfm/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@bytemd/plugin-highlight/dist/index.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 获取内容区域
+        const contentTextarea = document.getElementById('content');
+        const initialContent = contentTextarea.value || '';
+        
+        // 初始化 bytemd 编辑器
+        const editor = new bytemd.Editor({
+            target: document.getElementById('editor'),
+            props: {
+                value: initialContent,
+                plugins: [
+                    bytemd.pluginGfm(),
+                    bytemd.pluginHighlight(),
+                ],
+            },
+        });
+        
+        // 监听内容变化
+        editor.$on('change', (e) => {
+            contentTextarea.value = e.detail.value;
+        });
+        
+        // 表单提交前确保内容已同步
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function() {
+            contentTextarea.value = editor.getValue();
+        });
+    });
+</script>
