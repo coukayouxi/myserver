@@ -1,0 +1,106 @@
+<h1>{{#if post}}编辑文章{{else}}创建文章{{/if}}</h1>
+
+<form action="/admin/posts/save" method="POST" enctype="multipart/form-data">
+    {{#if post}}
+        <input type="hidden" name="id" value="{{post.id}}">
+    {{/if}}
+    
+    <div class="form-group">
+        <label class="form-label" for="title">标题 *</label>
+        <input type="text" id="title" name="title" class="form-input" value="{{post.title}}" required>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="excerpt">摘要</label>
+        <textarea id="excerpt" name="excerpt" class="form-textarea">{{post.excerpt}}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="content">内容 *</label>
+        <textarea id="content" name="content" required>{{post.content}}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="category">分类</label>
+        <input type="text" id="category" name="category" class="form-input" value="{{post.category}}" list="categories">
+        <datalist id="categories">
+            <option value="技术">
+            <option value="生活">
+            <option value="学习">
+            <option value="分享">
+        </datalist>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="tags">标签 (用逗号分隔)</label>
+        <input type="text" id="tags" name="tags" class="form-input" value="{{#if post.tags}}{{post.tags}}{{/if}}">
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="featuredImage">特色图片</label>
+        {{#if post.featured_image}}
+            <img src="{{post.featured_image}}" alt="当前图片" style="max-width: 200px; margin-bottom: 1rem;">
+        {{/if}}
+        <input type="file" id="featuredImage" name="featuredImage" class="form-input">
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="status">状态</label>
+        <select id="status" name="status" class="form-select">
+            <option value="draft" {{#if (or (eq post.status 'draft') (not post))}}selected{{/if}}>草稿</option>
+            <option value="published" {{#if (eq post.status 'published')}}selected{{/if}}>已发布</option>
+        </select>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary">保存文章</button>
+        <a href="/admin/posts" class="btn">取消</a>
+    </div>
+</form>
+
+<!-- 引入Markdown编辑器CSS -->
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+
+<style>
+    .CodeMirror, .CodeMirror-scroll {
+        min-height: 400px;
+    }
+    .editor-toolbar {
+        border-radius: 4px 4px 0 0;
+    }
+    .CodeMirror {
+        border-radius: 0 0 4px 4px;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<!-- 引入Markdown编辑器JS -->
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script>
+    // 初始化Markdown编辑器
+    document.addEventListener('DOMContentLoaded', function() {
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('content'),
+            autosave: {
+                enabled: true,
+                uniqueId: "edit-post-{{#if post}}{{post.id}}{{else}}new{{/if}}",
+                delay: 1000,
+            },
+            minHeight: "400px",
+            toolbar: [
+                "bold", "italic", "strikethrough", "heading", "|",
+                "quote", "unordered-list", "ordered-list", "code", "table", "|",
+                "link", "image", "horizontal-rule", "|",
+                "preview", "side-by-side", "fullscreen", "|",
+                "guide"
+            ],
+            previewRender: function(plainText) {
+                return this.parent.markdown(plainText);
+            },
+            renderingConfig: {
+                codeSyntaxHighlighting: true,
+            },
+            spellChecker: false,
+        });
+    });
+</script>

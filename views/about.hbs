@@ -1,0 +1,64 @@
+<div style="background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 2rem;">
+    <h1 style="margin-bottom: 1.5rem; color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">
+        关于我
+    </h1>
+    
+    <div style="line-height: 1.8; color: #333;">
+        <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+            欢迎来到我的博客！
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            我是一名热爱技术与分享的博主。在这里，我会记录和分享我在编程、Web开发、生活感悟等方面的经验和思考。
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            这个博客使用 Node.js + Express + Supabase 构建，旨在提供一个简洁、高效的技术分享平台。
+        </p>
+        
+        <h2 style="margin: 2rem 0 1rem 0; color: #3498db;">联系我</h2>
+        <p style="margin-bottom: 1.5rem;">
+            如果您有任何问题或建议，欢迎通过以下方式联系我：
+        </p>
+        
+        <ul style="list-style-type: none; padding: 0; margin-bottom: 2rem;">
+            <li style="margin-bottom: 0.5rem;">
+                <strong>邮箱：</strong> 
+                <a href="mailto:{{config 'site.email'}}" style="color: #3498db; text-decoration: none;">
+                    {{config 'site.email'}}
+                </a>
+            </li>
+            {{#if (config 'social.github')}}
+            <li style="margin-bottom: 0.5rem;">
+                <strong>GitHub：</strong> 
+                <a href="{{config 'social.github'}}" target="_blank" style="color: #3498db; text-decoration: none;">
+                    {{config 'social.github'}}
+                </a>
+            </li>
+            {{/if}}
+            {{#if (config 'social.twitter')}}
+            <li style="margin-bottom: 0.5rem;">
+                <strong>Twitter：</strong> 
+                <a href="{{config 'social.twitter'}}" target="_blank" style="color: #3498db; text-decoration: none;">
+                    {{config 'social.twitter'}}
+                </a>
+            </li>
+            {{/if}}
+        </ul>
+        
+        <h2 style="margin: 2rem 0 1rem 0; color: #3498db;">博客技术栈</h2>
+        <ul style="margin-bottom: 1.5rem;">
+            <li>Node.js - 运行时环境</li>
+            <li>Express.js - Web 应用框架</li>
+            <li>Supabase - 数据库和认证</li>
+            <li>Handlebars - 模板引擎</li>
+            <li>EasyMDE - Markdown 编辑器</li>
+        </ul>
+        
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid #3498db; margin-top: 2rem;">
+            <p style="margin: 0; font-style: italic;">
+                "记录成长，分享知识，连接世界。"
+            </p>
+        </div>
+    </div>
+</div>

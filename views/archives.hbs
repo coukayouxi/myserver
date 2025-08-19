@@ -1,0 +1,15 @@
+<h1>文章归档</h1>
+
+{{#each archives}}
+    <div style="margin-bottom: 2rem;">
+        <h2 style="border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">{{@key}}年</h2>
+        <ul style="list-style: none; padding: 0;">
+            {{#each this}}
+                <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                    <span style="color: #666; margin-right: 1rem;">{{formatDate created_at "MM-DD"}}</span>
+                    <a href="/post/{{slug}}" style="text-decoration: none; color: #333;">{{title}}</a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/each}}

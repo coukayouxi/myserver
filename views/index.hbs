@@ -1,0 +1,45 @@
+{{#each posts}}
+    <article class="post-card">
+        <header class="post-header">
+            <h2 class="post-title">
+                <a href="/post/{{this.slug}}">{{this.title}}</a>
+            </h2>
+            <div class="post-meta">
+                <span>📅 {{formatDate this.created_at}}</span>
+                <span>👤 {{this.author}}</span>
+                <span>👁️ {{this.views}}</span>
+                {{#if this.category}}
+                    <span>📁 {{this.category}}</span>
+                {{/if}}
+            </div>
+        </header>
+        <div class="post-content">
+            {{#if this.featured_image}}
+                <img src="{{this.featured_image}}" alt="{{this.title}}" style="width: 100%; height: 200px; object-fit: cover; margin-bottom: 1rem;">
+            {{/if}}
+            <p class="post-excerpt">{{excerpt this.excerpt 200}}</p>
+            <a href="/post/{{this.slug}}" class="read-more">阅读全文 →</a>
+        </div>
+    </article>
+{{else}}
+    <div style="text-align: center; padding: 3rem;">
+        <h3>暂无文章</h3>
+        <p>还没有发布任何文章，敬请期待！</p>
+    </div>
+{{/each}}
+
+{{#if (gt totalPages 1)}}
+    <nav class="pagination">
+        {{#if hasPrevPage}}
+            <a href="?page={{prevPage}}" class="page-link">上一页</a>
+        {{/if}}
+        
+        {{#each (range 1 totalPages)}}
+            <a href="?page={{this}}" class="page-link {{#if (eq this ../currentPage)}}active{{/if}}">{{this}}</a>
+        {{/each}}
+        
+        {{#if hasNextPage}}
+            <a href="?page={{nextPage}}" class="page-link">下一页</a>
+        {{/if}}
+    </nav>
+{{/if}}

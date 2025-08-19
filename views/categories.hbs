@@ -1,0 +1,40 @@
+<div style="background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 2rem;">
+    <h1 style="margin-bottom: 1.5rem; color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">
+        文章分类
+    </h1>
+    
+    {{#if categories}}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            {{#each categories}}
+                <div style="background: #f8f9fa; border-radius: 6px; padding: 1.5rem; border-left: 4px solid #3498db; transition: transform 0.3s ease;">
+                    <h3 style="margin-top: 0; color: #2c3e50;">
+                        <a href="/categories/{{@key}}" style="text-decoration: none; color: inherit;">
+                            {{@key}}
+                        </a>
+                    </h3>
+                    <p style="color: #666; margin-bottom: 1rem;">
+                        {{this.count}} 篇文章
+                    </p>
+                    <a href="/categories/{{@key}}" style="color: #3498db; text-decoration: none; font-weight: bold; display: inline-block;">
+                        查看全部 →
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <div style="text-align: center; padding: 3rem;">
+            <h3 style="color: #666; margin-bottom: 1rem;">暂无分类</h3>
+            <p style="color: #999;">
+                还没有文章使用分类功能
+            </p>
+        </div>
+    {{/if}}
+    
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee;">
+        <h2 style="color: #2c3e50; margin-bottom: 1rem;">分类说明</h2>
+        <p style="color: #666; line-height: 1.6;">
+            分类是组织文章的一种方式，帮助读者更容易找到感兴趣的内容。
+            管理员在发布文章时可以为文章指定一个分类。
+        </p>
+    </div>
+</div>

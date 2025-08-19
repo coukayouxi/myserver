@@ -1,0 +1,24 @@
+<h1>站点设置</h1>
+
+<form action="/admin/settings/save" method="POST">
+    <div class="form-group">
+        <label class="form-label" for="site_title">站点标题</label>
+        <input type="text" id="site_title" name="site_title" class="form-input" value="{{config.site.title}}">
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="site_subtitle">站点副标题</label>
+        <input type="text" id="site_subtitle" name="site_subtitle" class="form-input" value="{{config.site.subtitle}}">
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="footer_html">页脚HTML</label>
+        <textarea id="footer_html" name="footer_html" class="form-textarea" rows="4">{{{config.footer.html}}}</textarea>
+        <small class="form-text">可以使用HTML标签自定义页脚内容</small>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary">保存设置</button>
+        <a href="/admin/dashboard" class="btn">取消</a>
+    </div>
+</form>

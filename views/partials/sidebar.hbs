@@ -1,0 +1,36 @@
+<aside class="sidebar">
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">关于博主</h3>
+        <p>{{config 'site.description'}}</p>
+    </div>
+    
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">社交链接</h3>
+        <div class="social-links">
+            {{#if (config 'social.github')}}
+                <a href="{{config 'social.github'}}" class="social-link" target="_blank">GitHub</a>
+            {{/if}}
+            {{#if (config 'social.twitter')}}
+                <a href="{{config 'social.twitter'}}" class="social-link" target="_blank">Twitter</a>
+            {{/if}}
+            {{#if (config 'social.weibo')}}
+                <a href="{{config 'social.weibo'}}" class="social-link" target="_blank">微博</a>
+            {{/if}}
+            {{#if (config 'social.zhihu')}}
+                <a href="{{config 'social.zhihu'}}" class="social-link" target="_blank">知乎</a>
+            {{/if}}
+        </div>
+    </div>
+    
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">标签云</h3>
+        <div class="tag-cloud">
+            <a href="#" class="tag">技术</a>
+            <a href="#" class="tag">生活</a>
+            <a href="#" class="tag">学习</a>
+            <a href="#" class="tag">分享</a>
+            <a href="#" class="tag">前端</a>
+            <a href="#" class="tag">后端</a>
+        </div>
+    </div>
+</aside>

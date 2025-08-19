@@ -1,0 +1,9 @@
+<h1>标签云</h1>
+
+<div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem;">
+    {{#each tags}}
+        <a href="/search?q={{@key}}" class="tag" style="font-size: {{add 12 (multiply (divide this 10) 4)}}px;">
+            {{@key}} ({{this}})
+        </a>
+    {{/each}}
+</div>

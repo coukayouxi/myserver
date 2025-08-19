@@ -1,0 +1,80 @@
+# 站点配置
+site:
+  title: "我的动态博客"
+  subtitle: "分享技术与生活"
+  description: "一个功能强大的自制动态博客系统"
+  keywords: "博客,技术,生活,分享"
+  author: "博主"
+  email: "3127500373@qq.com"
+  language: "zh-CN"
+  timezone: "Asia/Shanghai"
+
+# URL配置
+url:
+  base: "http://127.0.0.1:6002"
+  root: "/"
+
+# 主题配置
+theme:
+  name: "default"
+  color_scheme: "light"
+  custom_css: "/css/custom.css"
+  favicon: "/favicon.ico"
+
+# 页脚配置
+footer:
+  html: '由<a href="https://www.saabor.com">Saabor</a>制作'
+
+# 博客配置
+blog:
+  posts_per_page: 5
+  excerpt_length: 150
+  enable_comments: true
+  enable_sharing: true
+  enable_search: true
+
+# 社交链接
+social:
+  github: "https://github.com/dlzs2515"
+  twitter: "https://x.com/blogsaabor"
+
+# 菜单配置
+menu:
+  home:
+    name: "首页"
+    url: "/"
+    icon: "home"
+  about:
+    name: "关于"
+    url: "/about"
+    icon: "info"
+  archives:
+    name: "归档"
+    url: "/archives"
+    icon: "archive"
+  tags:
+    name: "标签"
+    url: "/tags"
+    icon: "tag"
+  categories:
+    name: "分类"
+    url: "/categories"
+    icon: "folder"
+
+# 上传配置
+upload:
+  max_size: 5242880 # 5MB
+  allowed_types: ["image/jpeg", "image/png", "image/gif"]
+  path: "/uploads/"
+
+# SEO配置
+seo:
+  enable: true
+  robots: "User-agent: *\nDisallow: /admin/\nAllow: /"
+  google_analytics: ""
+  baidu_tongji: ""
+
+# 自定义代码注入
+inject:
+  head: ""
+  footer: ""

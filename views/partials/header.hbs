@@ -1,0 +1,30 @@
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <!-- 左侧：Logo 图片 + 博客标题和副标题 -->
+            <div style="display: flex; align-items: center; flex: 1;">
+                <!-- Logo 图片 -->
+                <div style="margin-right: 15px;">
+                    <img src="/favicon.png" alt="{{config 'site.title'}} Logo" 
+                         style="height: 40px; width: auto; object-fit: contain;">
+                </div>
+                
+                <!-- 博客标题和副标题 -->
+                <div>
+                    <h1 class="site-title">{{config 'site.title'}}</h1>
+                    <p class="site-subtitle">{{config 'site.subtitle'}}</p>
+                </div>
+            </div>
+
+            <!-- 右侧：导航菜单 (保持原来的位置) -->
+            <ul class="nav-menu">
+                {{#each menu}}
+                    <li><a href="{{this.url}}" class="nav-link">{{this.name}}</a></li>
+                {{/each}}
+                {{#if user}}
+                    <li><a href="/admin/dashboard" class="nav-link">管理后台</a></li>
+                {{/if}}
+            </ul>
+        </nav>
+    </div>
+</header>

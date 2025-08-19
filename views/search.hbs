@@ -1,0 +1,26 @@
+<h1>搜索结果: "{{query}}"</h1>
+
+{{#if posts.length}}
+    {{#each posts}}
+        <article class="post-card">
+            <header class="post-header">
+                <h2 class="post-title">
+                    <a href="/post/{{this.slug}}">{{this.title}}</a>
+                </h2>
+                <div class="post-meta">
+                    <span>📅 {{formatDate this.created_at}}</span>
+                    <span>👤 {{this.author}}</span>
+                </div>
+            </header>
+            <div class="post-content">
+                <p class="post-excerpt">{{excerpt this.excerpt 150}}</p>
+                <a href="/post/{{this.slug}}" class="read-more">阅读全文 →</a>
+            </div>
+        </article>
+    {{/each}}
+{{else}}
+    <div style="text-align: center; padding: 3rem;">
+        <h3>没有找到相关文章</h3>
+        <p>尝试使用其他关键词搜索</p>
+    </div>
+{{/if}}
