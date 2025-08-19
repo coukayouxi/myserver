@@ -29,7 +29,24 @@ const apiRouter = require('./routes/api');
 const app = express();
 
 // 中间件
-app.use(helmet());
+// --- 正确配置 Helmet，包括解决 CSP 问题 ---
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+                // 允许来自 'self' 和 jsDelivr CDN 的脚本和样式
+                "script-src": ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+                "style-src": ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+                // 允许从 CDN 加载字体和图片
+                "font-src": ["'self'", "https://cdn.jsdelivr.net", "data:"],
+                "img-src": ["'self'", "https://cdn.jsdelivr.net", "data:", "http:", "https:"],
+            },
+        },
+    })
+);
+// 移除了重复的 app.use(helmet());
+// 移除了重复的 cors 和 compression 中间件调用，因为它们已经在下面统一配置了。
 app.use(cors());
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));

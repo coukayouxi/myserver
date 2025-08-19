@@ -5,22 +5,66 @@
         <input type="hidden" name="id" value="{{post.id}}">
     {{/if}}
     
-    <!-- ... 其他表单字段保持不变 ... -->
+    <div class="form-group">
+        <label class="form-label" for="title">标题 *</label>
+        <input type="text" id="title" name="title" class="form-input" value="{{post.title}}" required>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="excerpt">摘要</label>
+        <textarea id="excerpt" name="excerpt" class="form-textarea">{{post.excerpt}}</textarea>
+    </div>
     
     <div class="form-group">
         <label class="form-label" for="content">内容 *</label>
         <textarea id="content" name="content">{{post.content}}</textarea>
     </div>
-
-    <!-- ... 其他表单字段和按钮保持不变 ... -->
+    
+    <div class="form-group">
+        <label class="form-label" for="category">分类</label>
+        <input type="text" id="category" name="category" class="form-input" value="{{post.category}}" list="categories">
+        <datalist id="categories">
+            <option value="技术">
+            <option value="生活">
+            <option value="学习">
+            <option value="分享">
+        </datalist>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="tags">标签 (用逗号分隔)</label>
+        <input type="text" id="tags" name="tags" class="form-input" value="{{#if post.tags}}{{post.tags}}{{/if}}">
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="featuredImage">特色图片</label>
+        {{#if post.featured_image}}
+            <img src="{{post.featured_image}}" alt="当前图片" style="max-width: 200px; margin-bottom: 1rem;">
+        {{/if}}
+        <input type="file" id="featuredImage" name="featuredImage" class="form-input">
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="status">状态</label>
+        <select id="status" name="status" class="form-select">
+            <option value="draft" {{#if (or (eq post.status 'draft') (not post))}}selected{{/if}}>草稿</option>
+            <option value="published" {{#if (eq post.status 'published')}}selected{{/if}}>已发布</option>
+        </select>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary">保存文章</button>
+        <a href="/admin/posts" class="btn">取消</a>
+    </div>
 </form>
 
 <!-- 引入 EasyMDE CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
 
 <style>
+    /* 设置 EasyMDE 编辑器的最小高度 */
     .CodeMirror, .CodeMirror-scroll {
-        min-height: 400px;
+        min-height: 500px; /* 增加最小高度 */
     }
     .editor-toolbar {
         border-radius: 4px 4px 0 0;
@@ -33,9 +77,13 @@
     }
     /* 确保预览区域样式良好 */
     .editor-preview, .editor-preview-side {
-        background-color: #fafafa;
-        padding: 10px 20px;
+        background-color: #ffffff; /* 白色背景更清晰 */
+        padding: 20px;
         overflow-y: auto;
+        min-height: 500px; /* 预览区域也设置最小高度 */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
     }
     .editor-preview img, .editor-preview-side img {
         max-width: 100%;
@@ -44,19 +92,43 @@
     /* 代码块样式 */
     .editor-preview pre, .editor-preview-side pre,
     .editor-preview code, .editor-preview-side code {
-        background-color: #f5f5f5;
-        border-radius: 4px;
+        background-color: #f6f8fa;
+        border-radius: 6px;
     }
     .editor-preview pre, .editor-preview-side pre {
-        padding: 10px;
+        padding: 16px;
         overflow-x: auto;
+        line-height: 1.45;
     }
     .editor-preview code, .editor-preview-side code {
-        padding: 2px 4px;
-        font-family: 'Courier New', monospace;
+        padding: 0.2em 0.4em;
+        font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+        font-size: 85%;
+    }
+    /* 表格样式 */
+    .editor-preview table, .editor-preview-side table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+    }
+    .editor-preview table th, .editor-preview table td,
+    .editor-preview-side table th, .editor-preview-side table td {
+        border: 1px solid #d0d7de;
+        padding: 6px 13px;
+    }
+    .editor-preview table th, .editor-preview-side table th {
+        background-color: #f6f8fa;
+        font-weight: 600;
+    }
+    /* 引用块样式 */
+    .editor-preview blockquote, .editor-preview-side blockquote {
+        margin: 0;
+        padding: 0 1em;
+        color: #57606a;
+        border-left: 0.25em solid #d0d7de;
     }
 </style>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 <!-- 引入 EasyMDE JS -->
 <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 <script>
@@ -65,38 +137,32 @@
         const easyMDE = new EasyMDE({
             element: document.getElementById('content'),
             autosave: {
-                enabled: false, // 暂时禁用自动保存，避免冲突
-                // enabled: true,
-                // uniqueId: "edit-post-{{#if post}}{{post.id}}{{else}}new{{/if}}",
-                // delay: 1000,
+                enabled: false,
             },
-            minHeight: "400px",
-            // 配置工具栏，确保包含预览按钮
+            minHeight: "500px", // 设置最小高度
             toolbar: [
                 "bold", "italic", "strikethrough", "heading", "|",
                 "quote", "unordered-list", "ordered-list", "code", "table", "|",
                 "link", "image", "horizontal-rule", "|",
-                "preview", "side-by-side", "fullscreen", "|", // 这三个就是预览相关的按钮
+                "preview", "side-by-side", "fullscreen", "|",
                 "guide"
             ],
-            // 启用预览渲染
             previewRender: function(plainText) {
-                // EasyMDE 内部使用 marked 库进行渲染，这里可以自定义或使用默认
                 return this.parent.markdown(plainText);
             },
             renderingConfig: {
-                codeSyntaxHighlighting: false, // 如果想启用代码高亮，需要引入 highlight.js 相关库
+                codeSyntaxHighlighting: false,
             },
-            spellChecker: false, // 禁用拼写检查，避免浏览器干扰
-            // forceSync: true, // 强制同步到 textarea，通常不需要
+            spellChecker: false,
+            // 添加一些用户体验优化
+            status: false, // 隐藏底部状态栏
+            indentWithTabs: false, // 使用空格而不是制表符缩进
         });
 
-        // 为了确保表单提交时内容是最新的，可以在提交时手动同步
+        // 表单提交时同步内容
         const form = document.querySelector('form');
         if (form) {
             form.addEventListener('submit', function() {
-                // EasyMDE 通常会自动保持 textarea 同步，
-                // 但显式调用一次更保险
                 const markdownContent = easyMDE.value();
                 document.getElementById('content').value = markdownContent;
             });
